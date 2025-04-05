@@ -18,7 +18,10 @@ namespace MrLucy
 
     public class GameManager : Singleton<GameManager>
     {
+        [SerializeField] private HandSlot _handSlot;
         public GameState CurrentState { get; private set; } = GameState.MaxValue;
+        
+        public HandSlot GetHandSlot() => _handSlot;
 
         public event Action<GameState> OnStateChanged;
         private void Start()
@@ -37,10 +40,10 @@ namespace MrLucy
             switch (newState)
             {
                 case GameState.WaitingButton:
-                    // логика старта игры
+                    // активируем кнопку для начала спуска
                     break;
                 case GameState.Downhill:
-                    // логика после входа в лифт
+                    // спустя 5 сек выключаем свет в лифте и включаем подсказку как достать телефон
                     break;
                 case GameState.FirstFlashlight:
                     // логика при движении лифта

@@ -8,7 +8,7 @@ namespace MrLucy
         
         public override void Interact()
         {
-            if (!IsActive) return;
+            if (!isActive) return;
             Debug.Log($"Interacting with ElevatorButton {buttonNumber}");
         }
 
