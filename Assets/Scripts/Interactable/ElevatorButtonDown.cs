@@ -6,18 +6,18 @@
 
         private void Start()
         {
-            IsActive = false;
+            isActive = false;
         }
 
         public override void Interact()
         {
-            if (!IsActive) return;
+            if (!isActive) return;
             GameManager.Instance.SetState(GameState.Downhill);
         }
 
         protected override void OnGameStateChanged(GameState state)
         {
-            IsActive = state == GameState.WaitingButton;
+            isActive = state == GameState.WaitingButton;
         }
     }
 }
