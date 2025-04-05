@@ -8,7 +8,13 @@ namespace MrLucy
         
         public override void Interact()
         {
+            if (!IsActive) return;
             Debug.Log($"Interacting with ElevatorButton {buttonNumber}");
+        }
+
+        protected override void OnGameStateChanged(GameState state)
+        {
+            // nothing
         }
     }
 }

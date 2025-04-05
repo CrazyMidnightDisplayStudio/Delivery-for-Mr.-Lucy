@@ -3,8 +3,16 @@
 namespace MrLucy
 {
     [RequireComponent(typeof(Collider))]
-    public abstract class BaseInteractableObject : MonoBehaviour
+    public abstract class BaseInteractableObject : GameStateListener
     {
+        [SerializeField] private bool isActive = true;
+
+        public bool IsActive
+        {
+            get => isActive;
+            protected set => isActive = value;
+        }
+
         private const int InteractableLayer = 6;
 
         protected virtual void Awake()

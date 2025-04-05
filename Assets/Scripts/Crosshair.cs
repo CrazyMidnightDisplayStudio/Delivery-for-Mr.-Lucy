@@ -32,11 +32,14 @@ namespace MrLucy
                 var interactable = hit.collider.GetComponent<BaseInteractableObject>();
 
                 current = interactable;
-                crosshair.enabled = true;
-
-                if (Input.GetMouseButton(0))
+                if (interactable.IsActive)
                 {
-                    current.Interact();
+                    crosshair.enabled = true;
+
+                    if (Input.GetMouseButton(0))
+                    {
+                        current.Interact();
+                    }
                 }
 
                 return;
