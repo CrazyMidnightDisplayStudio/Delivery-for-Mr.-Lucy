@@ -7,7 +7,7 @@ namespace MrLucy
     {
         public int buttonNumber;
         protected ButtonPressAnimation _pressAnimation;
-        
+
         private AudioSource _audioSource;
         private AudioClip _buttonPressSound;
 
@@ -19,10 +19,18 @@ namespace MrLucy
             _audioSource.playOnAwake = false;
             _buttonPressSound = Resources.Load<AudioClip>("Audio/Sounds/elevatorButton");
             _audioSource.clip = _buttonPressSound;
-            
-            _audioSource.outputAudioMixerGroup = AudioManager.Instance.audioMixer.FindMatchingGroups("Sounds")[0];
+
+            var groups = AudioManager.Instance?.audioMixer?.FindMatchingGroups("Sounds");
+            if (groups != null && groups.Length > 0)
+            {
+                _audioSource.outputAudioMixerGroup = groups[0];
+            }
+            else
+            {
+                Debug.LogWarning("AudioManager или микшер не готов");
+            }
         }
-        
+
         public override void Interact()
         {
             _pressAnimation.PushButton();
