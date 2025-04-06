@@ -19,11 +19,6 @@ namespace MrLucy
             _interactableLayerMask = 1 << 6; // interactable layer == 6
         }
 
-        private void Start()
-        {
-            crosshair.enabled = false;
-        }
-
         private void Update()
         {
             if (highlight != null)
@@ -47,8 +42,6 @@ namespace MrLucy
 
                 if (interactable.isInteractActive)
                 {
-                    crosshair.enabled = true;
-
                     if (highlight.gameObject.TryGetComponent<Outline>(out var outline))
                         outline.enabled = true;
 
@@ -62,7 +55,6 @@ namespace MrLucy
             }
 
             current = null;
-            crosshair.enabled = false;
         }
     }
 }

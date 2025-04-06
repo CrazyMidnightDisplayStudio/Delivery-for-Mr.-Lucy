@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using Cinemachine;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MrLucy
 {
@@ -10,7 +12,6 @@ namespace MrLucy
         WaitingButton,
         Downhill,
         ChaoticFall,
-        FirstFlashlight,
         ElevatorStuck,
         TheHatchIsOpened,
         EnteredTheCode,
@@ -23,6 +24,7 @@ namespace MrLucy
         [SerializeField] private ElevatorDownhillScenario _elevatorDownhillScenario;
         [SerializeField] private ElevatorLight _elevatorLight;
         [SerializeField] private RedButton _redButton;
+        [SerializeField] private CameraShaker _cameraShaker;
         public GameState CurrentState { get; private set; }
         private GameState NextState() => CurrentState + 1;
 
@@ -51,20 +53,21 @@ namespace MrLucy
                     break;
                 case GameState.Downhill:
                     _elevatorDownhillScenario.StartDownhill(); // на -100 этаже сценарий переключит стейт на след
+                    _cameraShaker.StartShake(1f, 1.2f);
                     break;
                 case GameState.ChaoticFall:
                     // моргает свет, красная кнопка выпадает
                     _elevatorDownhillScenario.StartChaoticDownhill();
+                    _cameraShaker.StartShake(0.8f, 3.2f);
                     // через 5 секунд свет полностью погаснет
                     _elevatorLight.StartBlinking(5f);
                     // выстреливаем кнопкой
                     InvokeAfterDelay(5f, _redButton.Fire);
                     break;
-                case GameState.FirstFlashlight:
-                    // логика при движении лифта
-                    break;
                 case GameState.ElevatorStuck:
-                    // запуск головоломок
+                    // останавливаем лифт
+                    _cameraShaker.StopShake();
+                    _elevatorDownhillScenario.StopDownhill();
                     break;
                 case GameState.TheHatchIsOpened:
                     // 
