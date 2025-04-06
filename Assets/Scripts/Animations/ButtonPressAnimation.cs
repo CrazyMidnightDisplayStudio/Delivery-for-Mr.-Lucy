@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class Button : MonoBehaviour
+public class ButtonPressAnimation : MonoBehaviour
 {
-    [SerializeField] private float pushDistanceX = 0.01f;
-    [SerializeField] private float pushDuration = 0.5f;
+    private float pushDistanceX = 0.01f;
+    private float pushDuration = 0.5f;
     
     private Vector3 _originalPosition;
     private bool _isMoving;

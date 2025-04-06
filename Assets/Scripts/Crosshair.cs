@@ -5,8 +5,9 @@ namespace MrLucy
 {
     public class Crosshair : MonoBehaviour
     {
-        private int interactableLayerMask;
-        
+        [SerializeField] private HandSlot handSlot;
+        private int _interactableLayerMask;
+
         public Image crosshair;
         public float rayDistance = 1.5f;
 
@@ -15,14 +16,14 @@ namespace MrLucy
 
         private void Awake()
         {
-            interactableLayerMask = 1 << 6; // interactable layer == 6
+            _interactableLayerMask = 1 << 6; // interactable layer == 6
         }
 
         private void Start()
         {
             crosshair.enabled = false;
         }
-        
+
         private void Update()
         {
             if (highlight != null)
@@ -31,22 +32,23 @@ namespace MrLucy
                     outline.enabled = false;
                 highlight = null;
             }
-            
+
+
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f));
 
-            if (Physics.Raycast(ray, out var hit, rayDistance, interactableLayerMask))
+            if (Physics.Raycast(ray, out var hit, rayDistance, _interactableLayerMask))
             {
                 Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.yellow);
                 var interactable = hit.collider.GetComponent<BaseInteractableObject>();
-                
+
                 highlight = hit.transform;
-                    
+
                 current = interactable;
-                
-                if (interactable.isActive)
+
+                if (interactable.isInteractActive)
                 {
                     crosshair.enabled = true;
-                    
+
                     if (highlight.gameObject.TryGetComponent<Outline>(out var outline))
                         outline.enabled = true;
 

@@ -10,23 +10,27 @@ namespace MrLucy
         [SerializeField] private Phone phone;
 
         public GameObject currentItem;
-        private bool _isOccupied;
         private ItemMover _itemMover;
+
+        public bool Empty { get; private set; } = true;
 
         private void Awake()
         {
             _itemMover = GetComponent<ItemMover>();
         }
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if (!_isOccupied)
+                if (Empty)
                 {
+                    phone.gameObject.SetActive(true);
                     TryPickUp(phone);
                 }
                 else
                 {
+                    if (phone.IsLightOn) phone.IsLightOn = false;
                     DropItem();
                 }
             }
@@ -44,9 +48,9 @@ namespace MrLucy
 
         public void TryPickUp(GameObject item)
         {
-            if (_isOccupied) return;
+            if (!Empty) return;
 
-            _isOccupied = true;
+            Empty = false;
             currentItem = item;
             currentItem.transform.SetParent(transform);
             currentItem.transform.localPosition = handOffScreenPosition.localPosition;
@@ -56,11 +60,11 @@ namespace MrLucy
 
         public GameObject DropItem()
         {
-            if (!_isOccupied) return null;
+            if (Empty) return null;
 
             _itemMover.MoveTo(currentItem.transform, handOffScreenPosition, 0.5f, () =>
             {
-                _isOccupied = false;
+                Empty = true;
                 currentItem = null;
             });
 

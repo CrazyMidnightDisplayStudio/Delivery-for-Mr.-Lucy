@@ -4,7 +4,7 @@ using Random = UnityEngine.Random;
 
 namespace MrLucy
 {
-    public class ElevatorDownhillScenario : GameStateListener
+    public class ElevatorDownhillScenario : MonoBehaviour
     {
         [SerializeField] ElevatorDisplay elevatorDisplay;
         [SerializeField] ElevatorLight elevatorLight;
@@ -21,9 +21,16 @@ namespace MrLucy
             _sequence = StartCoroutine(DownhillSequence());
         }
 
+        public void StartChaoticDownhill()
+        {
+            _sequence = StartCoroutine(ChaosDownhillSequence());
+        }
+
         public void StopDownhill()
         {
             _chaosMode = false;
+            StopCoroutine(_sequence);
+            _sequence = null;
             _currentFallSpeed = 0f;
         }
 
@@ -36,25 +43,20 @@ namespace MrLucy
             while (elevatorDisplay.FloorNumber > -100)
             {
                 yield return new WaitForSeconds(delay);
-                
+
                 elevatorDisplay.FloorNumber -= 1;
 
                 delay *= acceleration;
                 _currentFallSpeed = 1f / delay;
             }
-            
-            elevatorLight.StartBlinking(5f);
 
-            // State 2 - chaos
-            _chaosMode = true;
-            yield return StartCoroutine(ChaosMode());
+            GameManager.Instance.SetState(GameState.ChaoticFall);
         }
 
-        private IEnumerator ChaosMode()
+        private IEnumerator ChaosDownhillSequence()
         {
-            Debug.Log("ChaosMode");
             _chaosMode = true;
-            
+
             while (_chaosMode)
             {
                 int randomFloor = Random.Range(-999, -111);
@@ -62,14 +64,6 @@ namespace MrLucy
 
                 float chaosDelay = Random.Range(0.03f, 0.08f);
                 yield return new WaitForSeconds(chaosDelay);
-            }
-        }
-
-        protected override void OnGameStateChanged(GameState state)
-        {
-            if (state == GameState.Downhill)
-            {
-                StartDownhill();
             }
         }
     }

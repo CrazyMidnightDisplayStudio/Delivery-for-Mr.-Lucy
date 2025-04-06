@@ -27,10 +27,10 @@ namespace MrLucy
             SetLightColor(enabled ? warningColor : normalColor);
         }
 
-        public void StartBlinking(float interval = 0.3f)
+        public void StartBlinking(float duration)
         {
             if (_blinkingRoutine == null)
-                _blinkingRoutine = StartCoroutine(BlinkRoutine(interval));
+                _blinkingRoutine = StartCoroutine(BlinkRoutine(duration));
         }
 
         public void StopBlinking()

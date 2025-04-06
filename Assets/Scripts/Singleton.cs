@@ -13,11 +13,6 @@ namespace MrLucy
                 if (_instance == null)
                 {
                     _instance = FindFirstObjectByType<T>();
-
-                    if (_instance == null)
-                    {
-                        Debug.LogError($"Нет экземпляра {typeof(T)} в сцене!");
-                    }
                 }
 
                 return _instance;
