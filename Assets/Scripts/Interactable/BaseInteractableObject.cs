@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MrLucy
 {
     [RequireComponent(typeof(Collider))]
     public abstract class BaseInteractableObject : GameStateListener
     {
-        public bool isActive = true;
+        [FormerlySerializedAs("isActive")] public bool isInteractActive = true;
 
         private const int InteractableLayer = 6;
 

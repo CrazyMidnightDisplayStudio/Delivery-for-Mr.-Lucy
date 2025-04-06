@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace MrLucy
@@ -7,6 +8,7 @@ namespace MrLucy
     {
         WaitingButton,
         Downhill,
+        ChaoticFall,
         FirstFlashlight,
         ElevatorStuck,
         TheHatchIsOpened,
@@ -19,11 +21,15 @@ namespace MrLucy
     public class GameManager : Singleton<GameManager>
     {
         [SerializeField] private HandSlot _handSlot;
+        [SerializeField] private ElevatorDownhillScenario _elevatorDownhillScenario;
+        [SerializeField] private ElevatorLight _elevatorLight;
+        [SerializeField] private RedButton _redButton;
         public GameState CurrentState { get; private set; } = GameState.MaxValue;
-        
+
         public HandSlot GetHandSlot() => _handSlot;
 
         public event Action<GameState> OnStateChanged;
+
         private void Start()
         {
             SetState(0);
@@ -43,7 +49,15 @@ namespace MrLucy
                     // активируем кнопку для начала спуска
                     break;
                 case GameState.Downhill:
-                    // спустя 5 сек выключаем свет в лифте и включаем подсказку как достать телефон
+                    _elevatorDownhillScenario.StartDownhill(); // на -100 этаже сценарий переключит стейт на след
+                    break;
+                case GameState.ChaoticFall:
+                    // моргает свет, красная кнопка выпадает
+                    _elevatorDownhillScenario.StartChaoticDownhill();
+                    // через 5 секунд свет полностью погаснет
+                    _elevatorLight.StartBlinking(5f);
+                    // выстреливаем кнопкой
+                    InvokeAfterDelay(5f, _redButton.Fire);
                     break;
                 case GameState.FirstFlashlight:
                     // логика при движении лифта
@@ -67,6 +81,17 @@ namespace MrLucy
             {
                 GameManager.Instance.OnStateChanged -= OnStateChanged;
             }
+        }
+
+        public static void InvokeAfterDelay(float delay, Action action)
+        {
+            Instance.StartCoroutine(Instance.RunDelay(delay, action));
+        }
+
+        private IEnumerator RunDelay(float delay, Action action)
+        {
+            yield return new WaitForSeconds(delay);
+            action?.Invoke();
         }
     }
 }

@@ -43,7 +43,7 @@ namespace MrLucy
                     
                 current = interactable;
                 
-                if (interactable.isActive)
+                if (interactable.isInteractActive)
                 {
                     crosshair.enabled = true;
                     
