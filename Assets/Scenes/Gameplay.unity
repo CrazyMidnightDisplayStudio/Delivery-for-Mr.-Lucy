@@ -183,6 +183,11 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b24af9cf451a764458c5a9cc6e7efbd6,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 19f776e18f09c6748aec986c5da8a951, type: 2}
     - target: {fileID: 919132149155446097, guid: b24af9cf451a764458c5a9cc6e7efbd6,
         type: 3}
       propertyPath: m_Name
@@ -319,13 +324,13 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.9245283, g: 0.9206458, b: 0.8503916, a: 1}
-  m_Intensity: 0.5
+  m_Intensity: 0.4
   m_Range: 2.8
   m_SpotAngle: 136.60526
   m_InnerSpotAngle: 112.49501
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -356,7 +361,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -485,7 +490,7 @@ GameObject:
   - component: {fileID: 677641150}
   - component: {fileID: 677641149}
   - component: {fileID: 677641148}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -708,6 +713,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 79c512075d761614da7341ba4aff5055,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 19f776e18f09c6748aec986c5da8a951, type: 2}
     - target: {fileID: 919132149155446097, guid: 79c512075d761614da7341ba4aff5055,
         type: 3}
       propertyPath: m_Name
@@ -905,12 +915,12 @@ GameObject:
   - component: {fileID: 1558366926}
   - component: {fileID: 1558366925}
   m_Layer: 0
-  m_Name: Spot Light Test
+  m_Name: Spot Light Outside
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1558366924
 Transform:
   m_ObjectHideFlags: 0
@@ -920,7 +930,7 @@ Transform:
   m_GameObject: {fileID: 1558366923}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -3.538, y: 3.03, z: -0.6443726}
+  m_LocalPosition: {x: -3.538, y: 2.227, z: -1.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -961,13 +971,13 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.9245283, g: 0.9206458, b: 0.8503916, a: 1}
-  m_Intensity: 0.5
-  m_Range: 2.8
-  m_SpotAngle: 136.60526
-  m_InnerSpotAngle: 112.49501
+  m_Intensity: 3
+  m_Range: 3
+  m_SpotAngle: 179
+  m_InnerSpotAngle: 95.19104
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -998,7 +1008,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 128
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -1356,13 +1366,13 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.9254902, g: 0.92156863, b: 0.8509804, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.5
   m_Range: 2
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -1393,7 +1403,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
