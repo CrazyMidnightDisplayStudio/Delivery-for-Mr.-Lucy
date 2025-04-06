@@ -12,6 +12,8 @@ namespace MrLucy
         WaitingButton,
         Downhill,
         ChaoticFall,
+        WaitForRedButtonReceive,
+        FirstCallRedButton,
         ElevatorStuck,
         TheHatchIsOpened,
         EnteredTheCode,
@@ -63,6 +65,13 @@ namespace MrLucy
                     _elevatorLight.StartBlinking(5f);
                     // выстреливаем кнопкой
                     InvokeAfterDelay(5f, _redButton.Fire);
+                    break;
+                case GameState.WaitForRedButtonReceive:
+                    // слот для установки красной кнопки включается сам
+                    break;
+                case GameState.FirstCallRedButton:
+                    // в этом стейте при нажатии красной кнопки вызовится диалог
+                    // ждем прыжка который остановит лифт
                     break;
                 case GameState.ElevatorStuck:
                     // останавливаем лифт

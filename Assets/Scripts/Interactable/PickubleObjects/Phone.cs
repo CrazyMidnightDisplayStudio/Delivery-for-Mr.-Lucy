@@ -1,55 +1,80 @@
-﻿using UnityEngine;
+﻿using MrLucy;
+using UnityEngine;
 
-namespace MrLucy
+[RequireComponent(typeof(ItemMover))]
+public class Phone : MonoBehaviour
 {
-    public class Phone : BaseInteractableObject, IPickupObject
+    [SerializeField] private Light flashlight;
+    [SerializeField] private Transform handScreenPosition;
+    [SerializeField] private Transform handOffScreenPosition;
+
+    private ItemMover _itemMover;
+    private MeshRenderer _meshRenderer;
+
+    private bool _phoneEquipped;
+
+    public bool PhoneEquipped
     {
-        [SerializeField] private bool canBePickedUp = true;
-        [SerializeField] private Light flashlight;
+        get => _phoneEquipped;
+        private set { _phoneEquipped = value; }
+    }
 
-        public bool IsLightOn
+    public bool IsLightOn
+    {
+        get => flashlight.enabled;
+        set => flashlight.enabled = value;
+    }
+
+    private void Awake()
+    {
+        _itemMover = GetComponent<ItemMover>();
+        _meshRenderer = GetComponent<MeshRenderer>();
+    }
+
+    private void Start()
+    {
+        IsLightOn = false;
+        transform.SetParent(handScreenPosition.parent);
+        transform.localPosition = handOffScreenPosition.localPosition;
+        PhoneEquipped = false;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            get => flashlight.enabled;
-            set => flashlight.enabled = value;
+            if (PhoneEquipped)
+                HidePhone();
+            else
+                ShowPhone();
         }
 
-        private void Start()
+        if (Input.GetKeyDown(KeyCode.F) && PhoneEquipped)
         {
-            IsLightOn = false;
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (PhoneEquipped)
             {
                 IsLightOn = !IsLightOn;
             }
-        }
-
-        public bool CanBePickedUp
-        {
-            get => canBePickedUp;
-            protected set => canBePickedUp = value;
-        }
-
-        protected override void OnGameStateChanged(GameState state)
-        {
-            // nothing
-        }
-
-        public override void Interact()
-        {
-            // nothing
-        }
-
-        public GameObject GetPickupPrefab()
-        {
-            if (CanBePickedUp)
+            else
             {
-                return gameObject;
+                IsLightOn = false;
             }
-
-            return null;
         }
+    }
+
+    private void ShowPhone()
+    {
+        _meshRenderer.enabled = true;
+        _itemMover.MoveToAndDestroyRB(transform, handScreenPosition, 1f, () => PhoneEquipped = true);
+    }
+
+    private void HidePhone()
+    {
+        IsLightOn = false;
+        _itemMover.MoveToAndDestroyRB(transform, handOffScreenPosition, 1f, () =>
+        {
+            PhoneEquipped = false;
+            _meshRenderer.enabled = false;
+        });
     }
 }

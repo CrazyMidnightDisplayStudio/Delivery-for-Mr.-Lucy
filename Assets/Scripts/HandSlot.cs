@@ -1,13 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MrLucy
 {
     [RequireComponent(typeof(ItemMover))]
     public class HandSlot : MonoBehaviour
     {
-        [SerializeField] Transform handScreenPosition;
-        [SerializeField] Transform handOffScreenPosition;
-        [SerializeField] private Phone phone;
+        [SerializeField] Transform handPosition;
 
         public GameObject currentItem;
         private ItemMover _itemMover;
@@ -19,56 +19,36 @@ namespace MrLucy
             _itemMover = GetComponent<ItemMover>();
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                if (Empty)
-                {
-                    phone.gameObject.SetActive(true);
-                    TryPickUp(phone);
-                }
-                else
-                {
-                    if (phone.IsLightOn) phone.IsLightOn = false;
-                    DropItem();
-                }
-            }
-
-            if (Input.GetMouseButtonDown(0))
-            {
-            }
-        }
-
-        public void TryPickUp(IPickupObject item)
+        public void TryPickUp(IPickupObject item, Action onComplete = null)
         {
             var gameObject = item.GetPickupPrefab();
-            TryPickUp(gameObject);
+            TryPickUp(gameObject, onComplete);
         }
 
-        public void TryPickUp(GameObject item)
+        public void TryPickUp(GameObject item, Action onComplete = null)
         {
             if (!Empty) return;
 
             Empty = false;
             currentItem = item;
-            currentItem.transform.SetParent(transform);
-            currentItem.transform.localPosition = handOffScreenPosition.localPosition;
 
-            _itemMover.MoveTo(currentItem.transform, handScreenPosition, 0.5f);
+            _itemMover.MoveToAndDestroyRB(currentItem.transform, handPosition, 2f, onComplete);
         }
 
-        public GameObject DropItem()
+        public GameObject ReceiveItem(Transform receiver, Action<GameObject> onFinish = null)
         {
             if (Empty) return null;
 
-            _itemMover.MoveTo(currentItem.transform, handOffScreenPosition, 0.5f, () =>
+            var itemToDrop = currentItem;
+
+            _itemMover.MoveToAndDestroyRB(itemToDrop.transform, receiver, 2f, () =>
             {
                 Empty = true;
                 currentItem = null;
+                onFinish?.Invoke(itemToDrop);
             });
 
-            return currentItem;
+            return itemToDrop;
         }
     }
 }

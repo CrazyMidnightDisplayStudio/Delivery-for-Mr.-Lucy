@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class ButtonPressAnimation : MonoBehaviour
 {
+    public bool active = true;
+    
     private float pushDistanceX = 0.01f;
     private float pushDuration = 0.5f;
     
@@ -17,6 +19,7 @@ public class ButtonPressAnimation : MonoBehaviour
 
     public void PushButton()
     {
+        if (!active) return;
         if (_isMoving) return;
         
         _isMoving = true;
@@ -26,6 +29,7 @@ public class ButtonPressAnimation : MonoBehaviour
 
     private void Update()
     {
+        if (!active) return;
         if (!_isMoving) return;
 
         _moveProgress += Time.deltaTime / pushDuration;

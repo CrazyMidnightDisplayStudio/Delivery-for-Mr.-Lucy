@@ -6,7 +6,7 @@ namespace MrLucy
     public class ElevatorButton : BaseInteractableObject
     {
         public int buttonNumber;
-        private ButtonPressAnimation _pressAnimation;
+        protected ButtonPressAnimation _pressAnimation;
         
         private AudioSource _audioSource;
         private AudioClip _buttonPressSound;

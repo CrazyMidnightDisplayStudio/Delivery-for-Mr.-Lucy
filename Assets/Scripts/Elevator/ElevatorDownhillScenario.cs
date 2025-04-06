@@ -49,7 +49,6 @@ namespace MrLucy
         private IEnumerator DownhillSequence()
         {
             float delay = initialDelay;
-            float chaosTimer = 0f;
 
             // State 1 - downhill
             while (_elevatorDisplay.FloorNumber > -100)

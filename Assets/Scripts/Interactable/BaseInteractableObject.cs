@@ -6,7 +6,7 @@ namespace MrLucy
     [RequireComponent(typeof(Collider))]
     public abstract class BaseInteractableObject : GameStateListener
     {
-        [FormerlySerializedAs("isActive")] public bool isInteractActive = true;
+        public bool isInteractActive = true;
 
         private const int InteractableLayer = 6;
 
