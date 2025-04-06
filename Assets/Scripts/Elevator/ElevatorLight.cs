@@ -66,15 +66,23 @@ namespace MrLucy
             }
         }
 
-        private IEnumerator BlinkRoutine(float interval)
+        private IEnumerator BlinkRoutine(float duration)
         {
+            float timer = 0f;
             bool state = true;
-            while (true)
+
+            while (timer < duration)
             {
                 SetLightActive(state);
                 state = !state;
+
+                float interval = Random.Range(0.05f, 0.2f);
                 yield return new WaitForSeconds(interval);
+                timer += interval;
             }
+
+            // По завершению — выключить свет
+            SetLightActive(false);
         }
     }
 }
