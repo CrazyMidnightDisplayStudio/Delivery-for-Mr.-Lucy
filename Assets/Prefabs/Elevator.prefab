@@ -688,7 +688,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbcc7169c88546d8811436256a1983a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  elevatorLight: {fileID: 0}
+  elevatorLight:
+  - {fileID: 0}
   lightedSurfaces: []
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   warningColor: {r: 1, g: 0, b: 0, a: 1}
@@ -1411,7 +1412,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button_1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7465438397147359306, guid: ece73293c98be5d43832fab9af8c466c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
