@@ -7,7 +7,7 @@ namespace MrLucy
         [SerializeField] private Transform positionOnPanel;
         Rigidbody _rigidbody;
         private bool _isFired;
-        
+
         public bool CanBePickedUp => _isFired;
 
         protected override void Awake()
@@ -33,6 +33,9 @@ namespace MrLucy
             {
                 _rigidbody.isKinematic = true;
                 _rigidbody.velocity = Vector3.zero;
+                _rigidbody.angularVelocity = Vector3.zero;
+                transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+
                 GameManager.Instance.GetHandSlot().TryPickUp(GetPickupPrefab());
             }
         }

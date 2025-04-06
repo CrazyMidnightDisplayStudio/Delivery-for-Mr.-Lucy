@@ -9,6 +9,7 @@
 
         public override void Interact()
         {
+            base.Interact();
             if (!isInteractActive) return;
             GameManager.Instance.SetState(GameState.Downhill);
         }

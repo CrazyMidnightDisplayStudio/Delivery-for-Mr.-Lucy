@@ -6,6 +6,7 @@ namespace MrLucy
 {
     public enum GameState
     {
+        Idle = 0,
         WaitingButton,
         Downhill,
         ChaoticFall,
@@ -14,8 +15,6 @@ namespace MrLucy
         TheHatchIsOpened,
         EnteredTheCode,
         FinalScene,
-
-        MaxValue
     }
 
     public class GameManager : Singleton<GameManager>
@@ -24,7 +23,8 @@ namespace MrLucy
         [SerializeField] private ElevatorDownhillScenario _elevatorDownhillScenario;
         [SerializeField] private ElevatorLight _elevatorLight;
         [SerializeField] private RedButton _redButton;
-        public GameState CurrentState { get; private set; } = GameState.MaxValue;
+        public GameState CurrentState { get; private set; }
+        private GameState NextState() => CurrentState + 1;
 
         public HandSlot GetHandSlot() => _handSlot;
 
@@ -32,12 +32,13 @@ namespace MrLucy
 
         private void Start()
         {
-            SetState(0);
+            SetState(NextState());
         }
 
         public void SetState(GameState newState)
         {
-            if (CurrentState == newState) return;
+            // стейт можно только следующий включать
+            if (newState <= CurrentState) return;
 
             CurrentState = newState;
             OnStateChanged?.Invoke(CurrentState);

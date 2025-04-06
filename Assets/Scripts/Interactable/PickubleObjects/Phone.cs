@@ -4,8 +4,27 @@ namespace MrLucy
 {
     public class Phone : BaseInteractableObject, IPickupObject
     {
-        [SerializeField] private GameObject prefab;
         [SerializeField] private bool canBePickedUp = true;
+        [SerializeField] private Light flashlight;
+
+        public bool IsLightOn
+        {
+            get => flashlight.enabled;
+            set => flashlight.enabled = value;
+        }
+
+        private void Start()
+        {
+            IsLightOn = false;
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                IsLightOn = !IsLightOn;
+            }
+        }
 
         public bool CanBePickedUp
         {
@@ -20,14 +39,14 @@ namespace MrLucy
 
         public override void Interact()
         {
-            // TODO
+            // nothing
         }
 
         public GameObject GetPickupPrefab()
         {
             if (CanBePickedUp)
             {
-                return prefab;
+                return gameObject;
             }
 
             return null;
