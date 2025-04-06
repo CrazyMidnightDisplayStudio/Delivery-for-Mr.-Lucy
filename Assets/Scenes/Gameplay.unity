@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731715, g: 0.13414735, b: 0.121078536, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -986,7 +986,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8762286024517199033, guid: 9c489a8547f4d9e4387da15a4ff82c81,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1387821655}
+      addedObject: {fileID: 1387821659}
   m_SourcePrefab: {fileID: 100100000, guid: 9c489a8547f4d9e4387da15a4ff82c81, type: 3}
 --- !u!1 &1387821650 stripped
 GameObject:
@@ -994,7 +994,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1015374638}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1387821655
+--- !u!114 &1387821659
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1412,9 +1412,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4ebe454bbf38894c97f1f161317924f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  breathCycleTime: 8
-  intensity: 0.02
-  breathAxis: {x: 0.5, y: 0.5, z: 0.5}
+  breathCycleTime: 3
+  intensity: 0.01
+  breathAxis: {x: 0, y: 1, z: 0}
 --- !u!1 &1945226312
 GameObject:
   m_ObjectHideFlags: 0
