@@ -2,6 +2,7 @@
 using System.Collections;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 namespace MrLucy
@@ -27,6 +28,7 @@ namespace MrLucy
         [SerializeField] private ElevatorLight _elevatorLight;
         [SerializeField] private RedButton _redButton;
         [SerializeField] private CameraShaker _cameraShaker;
+        
         public GameState CurrentState { get; private set; }
         private GameState NextState() => CurrentState + 1;
 
@@ -37,8 +39,9 @@ namespace MrLucy
         private void Start()
         {
             SetState(NextState());
+            CutsceneManager.Instance.StartCutscene("StartGame");
         }
-
+        
         public void SetState(GameState newState)
         {
             // стейт можно только следующий включать
