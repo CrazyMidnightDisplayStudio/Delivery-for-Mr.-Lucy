@@ -3996,7 +3996,7 @@ GameObject:
   - component: {fileID: 6113994569523943206}
   - component: {fileID: 8303989975988610028}
   - component: {fileID: 8303989975988610029}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5221,7 +5221,7 @@ GameObject:
   - component: {fileID: 8208842001736759299}
   - component: {fileID: 5063297069383186342}
   - component: {fileID: 7034770580763870060}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AboveElevator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
