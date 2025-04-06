@@ -94,9 +94,9 @@ public class DialogueSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            DisplayNextLine();
-        }
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     DisplayNextLine();
+        // }
     }
 }
