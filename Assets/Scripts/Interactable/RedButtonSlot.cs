@@ -14,7 +14,7 @@ namespace MrLucy
 
         protected override void OnGameStateChanged(GameState state)
         {
-            isInteractActive = (state == GameState.WaitForRedButtonReceive);
+            isInteractActive = (state == GameState.WaitForRedButtonReceive || state == GameState.RedButtonFired);
             _collider.enabled = isInteractActive;
             if (isInteractActive)
             {
@@ -28,15 +28,23 @@ namespace MrLucy
 
         public override void Interact()
         {
-            GameManager.Instance.GetHandSlot().ReceiveItem(transform, droppedItem =>
+            if (GameManager.Instance.CurrentState == GameState.RedButtonFired)
             {
-                if (droppedItem != null && droppedItem.TryGetComponent(out RedButton redButton))
+                GameManager.Instance.ButtonDialogue();
+            }
+            
+            if (GameManager.Instance.CurrentState == GameState.WaitForRedButtonReceive)
+            {
+                GameManager.Instance.GetHandSlot().ReceiveItem(transform, droppedItem =>
                 {
-                    redButton.ReturnToPanel();
-                }
+                    if (droppedItem != null && droppedItem.TryGetComponent(out RedButton redButton))
+                    {
+                        redButton.ReturnToPanel();
+                    }
 
-                GameManager.Instance.SetState(GameState.FirstCallRedButton);
-            });
+                    GameManager.Instance.SetState(GameState.FirstCallRedButton);
+                });
+            }
         }
     }
 }

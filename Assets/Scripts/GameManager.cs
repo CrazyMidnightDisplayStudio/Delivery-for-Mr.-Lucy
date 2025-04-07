@@ -11,6 +11,7 @@ namespace MrLucy
         WaitingButton,
         Downhill,
         ChaoticFall,
+        RedButtonFired,
         WaitForRedButtonReceive,
         FirstCallRedButton,
         WaitSpaceButton,
@@ -42,6 +43,7 @@ namespace MrLucy
 
         [SerializeField] private DialogueData _jumpDialogueData;
         [SerializeField] private DialogueData _startGameDialogueData;
+        [SerializeField] private DialogueData _findButton;
 
         private DialogueSystem _dialogueSystem;
 
@@ -62,7 +64,6 @@ namespace MrLucy
         {
             SetState(NextState());
             CutsceneManager.Instance.StartCutscene("StartGame");
-            Time.timeScale *= 2f;
         }
 
         private void Update()
@@ -126,13 +127,18 @@ namespace MrLucy
                     _cameraShaker.StartShake(0.8f, 3.2f);
                     // через 5 секунд свет полностью погаснет
                     _elevatorLight.StartBlinking(5f);
+                    // переход на след сцену
+                    InvokeAfterDelay(5f, SetNextState);
+                    break;
+                case GameState.RedButtonFired:
                     // выстреливаем кнопкой
-                    InvokeAfterDelay(5f, _redButton.Fire);
+                    _redButton.Fire();
                     break;
                 case GameState.WaitForRedButtonReceive:
                     // слот для установки красной кнопки включается сам
                     break;
                 case GameState.FirstCallRedButton:
+                    DialogueSystem.Instance.EndDialogue();
                     DialogueSystem.Instance.StartDialogue(_jumpDialogueData);
                     // в этом стейте при нажатии красной кнопки вызовится диалог
                     SetState(GameState.WaitSpaceButton);
@@ -197,6 +203,13 @@ namespace MrLucy
 
             Debug.LogWarning("NextState() вызван, но дальше уже некуда переходить.");
             return CurrentState; // или FinalScene
+        }
+        
+        private void SetNextState() => SetState(NextState());
+
+        public void ButtonDialogue()
+        {
+            DialogueSystem.Instance.StartDialogue(_findButton);
         }
     }
 }
