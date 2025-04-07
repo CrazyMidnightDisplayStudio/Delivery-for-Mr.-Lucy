@@ -12,7 +12,7 @@ namespace MrLucy
 
         [SerializeField] private float initialDelay = 3f;
         [SerializeField] private float acceleration = 0.85f;
-        
+
 
         private Coroutine _sequence;
         private bool _chaosMode = false;
@@ -57,7 +57,7 @@ namespace MrLucy
 
                 _elevatorDisplay.FloorNumber -= 1;
 
-                delay *= acceleration;
+                delay = Mathf.Max(0.05f, delay * acceleration); // защита от слишком маленьких значений
                 _currentFallSpeed = 1f / delay;
             }
 

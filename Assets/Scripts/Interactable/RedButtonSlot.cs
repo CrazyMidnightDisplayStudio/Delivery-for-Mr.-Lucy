@@ -16,6 +16,14 @@ namespace MrLucy
         {
             isInteractActive = (state == GameState.WaitForRedButtonReceive);
             _collider.enabled = isInteractActive;
+            if (isInteractActive)
+            {
+                gameObject.layer = LayerMask.NameToLayer("Interactable");
+            }
+            else
+            {
+                gameObject.layer = LayerMask.NameToLayer("Default");
+            }
         }
 
         public override void Interact()

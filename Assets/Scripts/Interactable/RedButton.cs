@@ -38,8 +38,9 @@ namespace MrLucy
 
         public void ReturnToPanel()
         {
-            _isFired = false;
             _pressAnimation.active = true;
+            transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+            _isFired = false;
         }
 
         public GameObject GetPickupPrefab()

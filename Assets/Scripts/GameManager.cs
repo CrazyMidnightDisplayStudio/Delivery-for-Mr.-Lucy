@@ -28,9 +28,8 @@ namespace MrLucy
         [SerializeField] private ElevatorLight _elevatorLight;
         [SerializeField] private RedButton _redButton;
         [SerializeField] private CameraShaker _cameraShaker;
-        
+
         public GameState CurrentState { get; private set; }
-        private GameState NextState() => CurrentState + 1;
 
         public HandSlot GetHandSlot() => _handSlot;
 
@@ -40,10 +39,19 @@ namespace MrLucy
         {
             SetState(NextState());
             CutsceneManager.Instance.StartCutscene("StartGame");
+            Time.timeScale *= 2f;
         }
-        
+
         public void SetState(GameState newState)
         {
+            Debug.Log($"[GameManager] Trying to SetState: {newState} ({(int)newState}), current: {CurrentState}");
+
+            if (!Enum.IsDefined(typeof(GameState), newState))
+            {
+                Debug.LogError($"Invalid GameState: {newState} ({(int)newState})");
+                return;
+            }
+
             // стейт можно только следующий включать
             if (newState <= CurrentState) return;
 
@@ -108,6 +116,16 @@ namespace MrLucy
         {
             yield return new WaitForSeconds(delay);
             action?.Invoke();
+        }
+
+        private GameState NextState()
+        {
+            int next = (int)CurrentState + 1;
+            if (Enum.IsDefined(typeof(GameState), next))
+                return (GameState)next;
+
+            Debug.LogWarning("NextState() вызван, но дальше уже некуда переходить.");
+            return CurrentState; // или FinalScene
         }
     }
 }
