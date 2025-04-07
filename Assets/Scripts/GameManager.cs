@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
-using Cinemachine;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace MrLucy
 {
@@ -15,6 +12,7 @@ namespace MrLucy
         ChaoticFall,
         WaitForRedButtonReceive,
         FirstCallRedButton,
+        WaitSpaceButton,
         ElevatorStuck,
         TheHatchIsOpened,
         EnteredTheCode,
@@ -28,6 +26,7 @@ namespace MrLucy
         [SerializeField] private ElevatorLight _elevatorLight;
         [SerializeField] private RedButton _redButton;
         [SerializeField] private CameraShaker _cameraShaker;
+        [SerializeField] private GameObject _hatch;
 
         public GameState CurrentState { get; private set; }
 
@@ -40,6 +39,17 @@ namespace MrLucy
             SetState(NextState());
             CutsceneManager.Instance.StartCutscene("StartGame");
             Time.timeScale *= 2f;
+        }
+
+        private void Update()
+        {
+            if (CurrentState == GameState.WaitSpaceButton)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    SetState(GameState.ElevatorStuck);
+                }
+            }
         }
 
         public void SetState(GameState newState)
@@ -82,7 +92,10 @@ namespace MrLucy
                     break;
                 case GameState.FirstCallRedButton:
                     // в этом стейте при нажатии красной кнопки вызовится диалог
-                    // ждем прыжка который остановит лифт
+                    SetState(GameState.WaitSpaceButton);
+                    break;
+                case GameState.WaitSpaceButton:
+                    // ждем прыжка который остановит лифт в Update()
                     break;
                 case GameState.ElevatorStuck:
                     // останавливаем лифт
@@ -90,7 +103,8 @@ namespace MrLucy
                     _elevatorDownhillScenario.StopDownhill();
                     break;
                 case GameState.TheHatchIsOpened:
-                    // 
+                    GetHandSlot().DropItem();
+                    _hatch.AddComponent<Rigidbody>();
                     break;
                 case GameState.EnteredTheCode:
                     break;
