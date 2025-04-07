@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace MrLucy
 {
@@ -45,8 +44,6 @@ namespace MrLucy
         [SerializeField] private DialogueData _startGameDialogueData;
         [SerializeField] private DialogueData _findButton;
 
-        private DialogueSystem _dialogueSystem;
-
         public GameState CurrentState { get; private set; }
 
         public HandSlot GetHandSlot() => _handSlot;
@@ -57,7 +54,6 @@ namespace MrLucy
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            _dialogueSystem = DialogueSystem.Instance;
         }
 
         private void Start()
@@ -139,7 +135,8 @@ namespace MrLucy
                     break;
                 case GameState.FirstCallRedButton:
                     DialogueSystem.Instance.EndDialogue();
-                    DialogueSystem.Instance.StartDialogue(_jumpDialogueData);
+                    //DialogueSystem.Instance.StartDialogue(_jumpDialogueData);
+                    DialogueSystem.Instance.StartDialogueJump();
                     // в этом стейте при нажатии красной кнопки вызовится диалог
                     SetState(GameState.WaitSpaceButton);
                     break;
@@ -209,7 +206,8 @@ namespace MrLucy
 
         public void ButtonDialogue()
         {
-            DialogueSystem.Instance.StartDialogue(_findButton);
+            //DialogueSystem.Instance.StartDialogue(_findButton);
+            DialogueSystem.Instance.StartDialogueFind();
         }
     }
 }
