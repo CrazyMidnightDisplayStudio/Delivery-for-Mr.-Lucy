@@ -133,6 +133,13 @@ public class DialogueSystem : Singleton<DialogueSystem>
     private IEnumerator AutoNextLine()
     {
         yield return new WaitForSeconds(lineDelay);
+
+        if (_currentDialogue == null)
+        {
+            EndDialogue();
+            yield break;
+        }
+
         DisplayNextLine();
     }
 
