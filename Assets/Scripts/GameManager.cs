@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MrLucy
 {
@@ -39,6 +40,8 @@ namespace MrLucy
         [SerializeField] private GameObject _oldOutside;
         [SerializeField] private Transform _playerTransform;
         [SerializeField] private Final _final;
+
+        [SerializeField] private GameObject _blackoutCurtain;
 
         [SerializeField] private DialogueData _jumpDialogueData;
         [SerializeField] private DialogueData _startGameDialogueData;
@@ -153,6 +156,7 @@ namespace MrLucy
                     _elevatorLight.TurnOn();
                     break;
                 case GameState.TheHatchIsOpened:
+                    _blackoutCurtain.SetActive(true);
                     GetHandSlot().DropItem();
                     _hatch.gameObject.AddComponent<Rigidbody>();
                     _phone.isActive = true;
@@ -173,6 +177,8 @@ namespace MrLucy
                     break;
             }
         }
+
+        public void SetBlackoutActive(bool active) => _blackoutCurtain.SetActive(active);
 
         protected virtual void OnDisable()
         {
@@ -202,7 +208,7 @@ namespace MrLucy
             Debug.LogWarning("NextState() вызван, но дальше уже некуда переходить.");
             return CurrentState; // или FinalScene
         }
-        
+
         private void SetNextState() => SetState(NextState());
 
         public void ButtonDialogue()

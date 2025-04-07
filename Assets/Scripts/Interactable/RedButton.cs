@@ -34,6 +34,11 @@ namespace MrLucy
             {
                 GameManager.Instance.GetHandSlot().TryPickUp(this, () => GameManager.Instance.SetState(GameState.WaitForRedButtonReceive));
             }
+
+            if (GameManager.Instance.CurrentState == GameState.WaitSpaceButton)
+            {
+                DialogueSystem.Instance.PrintSingleMessage("Jump!");
+            }
         }
 
         public void ReturnToPanel()

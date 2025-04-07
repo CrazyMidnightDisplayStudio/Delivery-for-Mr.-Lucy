@@ -31,6 +31,7 @@ namespace MrLucy
             Debug.Log("Ebaka: Interact");
             if (!isInteractActive) return;
 
+            GameManager.Instance.SetBlackoutActive(false);
             isInteractActive = false;
             _audioSource.clip = ebakaSound;
             _audioSource.Play();

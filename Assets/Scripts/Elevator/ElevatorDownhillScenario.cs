@@ -34,7 +34,6 @@ namespace MrLucy
         public void StartChaoticDownhill()
         {
             _sequence = StartCoroutine(ChaosDownhillSequence());
-            _elevatorSounds.PlayChaosSequence();
         }
 
         public void StartChaotic666()
@@ -64,6 +63,12 @@ namespace MrLucy
 
                 delay = Mathf.Max(0.05f, delay * acceleration); // защита от слишком маленьких значений
                 _currentFallSpeed = 1f / delay;
+
+
+                if (_elevatorDisplay.FloorNumber == -85)
+                {
+                    _elevatorSounds.PlayChaosSequence();
+                }
             }
 
             GameManager.Instance.SetState(GameState.ChaoticFall);
