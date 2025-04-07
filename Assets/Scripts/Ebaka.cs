@@ -71,7 +71,7 @@ namespace MrLucy
             var originalFOV = vcam.m_Lens.FieldOfView;
             vcam.LookAt = transform;
 
-            float duration = 0.5f;
+            float duration = 0.2f;
             float timer = 0f;
 
             // Плавно уменьшаем FOV до targetFOV
@@ -84,7 +84,7 @@ namespace MrLucy
 
             vcam.m_Lens.FieldOfView = targetFOV;
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
 
             timer = 0f;
             while (timer < duration)
