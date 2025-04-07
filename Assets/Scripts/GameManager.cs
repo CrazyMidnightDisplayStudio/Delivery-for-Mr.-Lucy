@@ -15,6 +15,7 @@ namespace MrLucy
         WaitSpaceButton,
         ElevatorStuck,
         TheHatchIsOpened,
+        EbakaState,
         EnteredTheCode,
         FinalScene,
     }
@@ -28,10 +29,11 @@ namespace MrLucy
         [SerializeField] private CameraShaker _cameraShaker;
         [SerializeField] private Hatch _hatch;
         [SerializeField] private Phone _phone;
-        
+        [SerializeField] private Ebaka _ebaka;
+
         [SerializeField] private DialogueData _jumpDialogueData;
         [SerializeField] private DialogueData _startGameDialogueData;
-        
+
         private DialogueSystem _dialogueSystem;
 
         public GameState CurrentState { get; private set; }
@@ -59,6 +61,15 @@ namespace MrLucy
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     SetState(GameState.ElevatorStuck);
+                }
+            }
+
+            if (CurrentState == GameState.TheHatchIsOpened)
+            {
+                if (_phone.IsLightOn)
+                {
+                    _ebaka.ShowEbaka();
+                    SetState(GameState.EbakaState);
                 }
             }
         }
@@ -123,6 +134,8 @@ namespace MrLucy
                     GetHandSlot().DropItem();
                     _hatch.gameObject.AddComponent<Rigidbody>();
                     _phone.isActive = true;
+                    break;
+                case GameState.EbakaState:
                     break;
                 case GameState.EnteredTheCode:
                     break;
