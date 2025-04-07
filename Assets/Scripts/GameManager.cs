@@ -30,12 +30,19 @@ namespace MrLucy
         
         [SerializeField] private DialogueData _jumpDialogueData;
         [SerializeField] private DialogueData _startGameDialogueData;
+        
+        private DialogueSystem _dialogueSystem;
 
         public GameState CurrentState { get; private set; }
 
         public HandSlot GetHandSlot() => _handSlot;
 
         public event Action<GameState> OnStateChanged;
+
+        private void Awake()
+        {
+            _dialogueSystem = DialogueSystem.Instance;
+        }
 
         private void Start()
         {
