@@ -89,6 +89,7 @@ namespace MrLucy
                 case GameState.Downhill:
                     _elevatorDownhillScenario.StartDownhill(); // на -100 этаже сценарий переключит стейт на след
                     _cameraShaker.StartShake(1f, 1.2f);
+                    _phone.HidePhone();
                     break;
                 case GameState.ChaoticFall:
                     // моргает свет, красная кнопка выпадает
