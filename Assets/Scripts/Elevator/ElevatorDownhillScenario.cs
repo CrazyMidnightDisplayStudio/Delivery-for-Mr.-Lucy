@@ -37,6 +37,11 @@ namespace MrLucy
             _elevatorSounds.PlayChaosSequence();
         }
 
+        public void StartChaotic666()
+        {
+            _sequence = StartCoroutine(ChaosSequence666());
+        }
+
         public void StopDownhill()
         {
             _chaosMode = false;
@@ -74,6 +79,21 @@ namespace MrLucy
                 _elevatorDisplay.FloorNumber = randomFloor;
 
                 float chaosDelay = Random.Range(0.03f, 0.08f);
+                yield return new WaitForSeconds(chaosDelay);
+            }
+        }
+
+        private IEnumerator ChaosSequence666()
+        {
+            _chaosMode = true;
+            bool switcher = true;
+
+            while (_chaosMode)
+            {
+                _elevatorDisplay.FloorNumber = switcher ? -666 : -667;
+                switcher = !switcher;
+
+                float chaosDelay = Random.Range(0.1f, 1f);
                 yield return new WaitForSeconds(chaosDelay);
             }
         }

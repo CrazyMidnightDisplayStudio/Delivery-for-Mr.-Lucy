@@ -148,6 +148,7 @@ namespace MrLucy
                     // останавливаем лифт
                     _cameraShaker.StopShake();
                     _elevatorDownhillScenario.StopDownhill();
+                    _elevatorDownhillScenario.StartChaotic666();
                     _elevatorLight.SetWarningMode(true);
                     _elevatorLight.TurnOn();
                     break;
