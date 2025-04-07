@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace MrLucy
 {
@@ -15,10 +14,6 @@ namespace MrLucy
             if (gameObject.layer != InteractableLayer)
             {
                 gameObject.layer = InteractableLayer;
-#if UNITY_EDITOR
-                Debug.LogWarning(
-                    $"{gameObject.name}: Автоматически установлен слой Interactable (слой {InteractableLayer})");
-#endif
             }
         }
 

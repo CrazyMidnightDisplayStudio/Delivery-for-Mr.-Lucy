@@ -22,14 +22,19 @@ namespace MrLucy
 
     public class GameManager : Singleton<GameManager>
     {
+        public Code312 code;
+        
         [SerializeField] private HandSlot _handSlot;
         [SerializeField] private ElevatorDownhillScenario _elevatorDownhillScenario;
         [SerializeField] private ElevatorLight _elevatorLight;
+        [SerializeField] private ElevatorDoors _elevatorDoors;
         [SerializeField] private RedButton _redButton;
         [SerializeField] private CameraShaker _cameraShaker;
         [SerializeField] private Hatch _hatch;
         [SerializeField] private Phone _phone;
         [SerializeField] private Ebaka _ebaka;
+        [SerializeField] private GameObject _newOutside;
+        [SerializeField] private GameObject _oldOutside;
 
         [SerializeField] private DialogueData _jumpDialogueData;
         [SerializeField] private DialogueData _startGameDialogueData;
@@ -44,6 +49,8 @@ namespace MrLucy
 
         private void Awake()
         {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             _dialogueSystem = DialogueSystem.Instance;
         }
 
@@ -94,7 +101,6 @@ namespace MrLucy
             switch (newState)
             {
                 case GameState.WaitingButton:
-                    DialogueSystem.Instance.StartDialogue(_startGameDialogueData);
                     // активируем кнопку для начала спуска
                     break;
                 case GameState.Downhill:
@@ -138,8 +144,13 @@ namespace MrLucy
                 case GameState.EbakaState:
                     break;
                 case GameState.EnteredTheCode:
+                    code.active = true;
+                    _oldOutside.SetActive(false);
+                    _newOutside.SetActive(true);
                     break;
                 case GameState.FinalScene:
+                    code.active = false;
+                    _elevatorDoors.OpenDoors();
                     break;
             }
         }

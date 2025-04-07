@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Audio;
 
 namespace MrLucy
 {
@@ -35,6 +34,7 @@ namespace MrLucy
         {
             _pressAnimation.PushButton();
             _audioSource.Play();
+            GameManager.Instance.code.AddDigit(buttonNumber);
             if (!isInteractActive) return;
             Debug.Log($"Interacting with ElevatorButton {buttonNumber}");
         }

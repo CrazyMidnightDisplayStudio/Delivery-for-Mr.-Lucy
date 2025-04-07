@@ -58,7 +58,7 @@ namespace MrLucy
                         }
                     }
 
-                    if (Input.GetMouseButton(0))
+                    if (Input.GetMouseButtonDown(0))
                     {
                         current.Interact();
                     }
