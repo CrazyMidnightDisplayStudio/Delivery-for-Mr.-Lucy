@@ -4,7 +4,7 @@
     {
         private void Start()
         {
-            isInteractActive = false;
+            //isInteractActive = false;
         }
 
         public override void Interact()
