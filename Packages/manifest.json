@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.singularitygroup.hotreload": "git+https://gitlab.hotreload.net/root/hot-reload-releases.git#1.13.1",
     "com.unity.burst": "1.8.7",
     "com.unity.cinemachine": "2.9.5",
     "com.unity.collab-proxy": "2.7.1",
