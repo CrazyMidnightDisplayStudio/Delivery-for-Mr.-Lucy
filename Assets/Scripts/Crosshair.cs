@@ -48,6 +48,16 @@ namespace MrLucy
                     if (highlight.gameObject.TryGetComponent<Outline>(out var outline))
                         outline.enabled = true;
 
+                    if (GameManager.Instance.CurrentState == GameState.EbakaState)
+                    {
+                        Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.red);
+                        if (current.TryGetComponent(out Ebaka ebaka))
+                        {
+                            Debug.Log("It is ebaka");
+                            ebaka.Interact();
+                        }
+                    }
+
                     if (Input.GetMouseButton(0))
                     {
                         current.Interact();

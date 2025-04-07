@@ -1940,6 +1940,7 @@ MonoBehaviour:
   _cameraShaker: {fileID: 8762286024363243436}
   _hatch: {fileID: 3469287837414375564}
   _phone: {fileID: 913999041}
+  _ebaka: {fileID: 2813513861464567023}
   _jumpDialogueData: {fileID: 11400000, guid: 71b2825f6e9e297488be4a8adad2cc4d, type: 2}
   _startGameDialogueData: {fileID: 11400000, guid: 3adfac4092beafb4599845b8a63e2506,
     type: 2}
@@ -3556,13 +3557,16 @@ GameObject:
   - component: {fileID: 1199154207839789899}
   - component: {fileID: 2813513861464567022}
   - component: {fileID: 67392068257536036}
-  m_Layer: 0
+  - component: {fileID: 2813513861464567023}
+  - component: {fileID: 2813513861464567025}
+  - component: {fileID: 2813513861464567024}
+  m_Layer: 6
   m_Name: Ebaka
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!222 &2078036837820305512
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3724,6 +3728,142 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2012986758257768945}
   m_Mesh: {fileID: -5495902117074765545, guid: 335f8f501968ae64ea0740c2a48d2741, type: 3}
+--- !u!114 &2813513861464567023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012986758257768945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f906a28141e46e4959eab957e23be91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInteractActive: 1
+  moveSpeed: 1
+  moveDuration: 1
+  ebakaSound: {fileID: 8300000, guid: fd428ba0d081335459b11bce5796c902, type: 3}
+  vcam: {fileID: 8762286024363243093}
+--- !u!82 &2813513861464567024
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012986758257768945}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!136 &2813513861464567025
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012986758257768945}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.16
+  m_Height: 0.12
+  m_Direction: 1
+  m_Center: {x: -0.01, y: 0.0034570247, z: 0.04}
 --- !u!4 &2837521203435479568
 Transform:
   m_ObjectHideFlags: 0
