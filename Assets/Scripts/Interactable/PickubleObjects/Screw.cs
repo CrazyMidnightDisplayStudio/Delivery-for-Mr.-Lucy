@@ -1,5 +1,4 @@
-﻿using NUnit.Framework.Constraints;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MrLucy
 {
@@ -12,7 +11,7 @@ namespace MrLucy
             isInteractActive = state == GameState.ElevatorStuck;
             if (state == GameState.TheHatchIsOpened)
             {
-                Destroy(gameObject);
+                GameManager.Instance.GetHandSlot().DropItem();
             }
         }
 

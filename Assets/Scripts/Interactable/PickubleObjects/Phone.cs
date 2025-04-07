@@ -8,8 +8,11 @@ public class Phone : MonoBehaviour
     [SerializeField] private Transform handScreenPosition;
     [SerializeField] private Transform handOffScreenPosition;
 
+    public bool isActive = true;
+
     private ItemMover _itemMover;
     private MeshRenderer _meshRenderer;
+    private HandSlot _handSlot;
 
     private bool _phoneEquipped;
 
@@ -29,6 +32,7 @@ public class Phone : MonoBehaviour
     {
         _itemMover = GetComponent<ItemMover>();
         _meshRenderer = GetComponent<MeshRenderer>();
+        _handSlot = GameManager.Instance.GetHandSlot();
     }
 
     private void Start()
@@ -42,6 +46,18 @@ public class Phone : MonoBehaviour
 
     private void Update()
     {
+        if (!isActive) return;
+        if (!_handSlot.Empty)
+        {
+            // если взяли отвертку, телефон убираем
+            if (_handSlot.currentItem.TryGetComponent(out Screw sc))
+            {
+                HidePhone();
+                isActive = false;
+                return;
+            }
+        }
+        
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (PhoneEquipped)
@@ -63,13 +79,13 @@ public class Phone : MonoBehaviour
         }
     }
 
-    private void ShowPhone()
+    public void ShowPhone()
     {
         _meshRenderer.enabled = true;
         _itemMover.MoveToAndDestroyRB(transform, handScreenPosition, 1f, () => PhoneEquipped = true);
     }
 
-    private void HidePhone()
+    public void HidePhone()
     {
         IsLightOn = false;
         _itemMover.MoveToAndDestroyRB(transform, handOffScreenPosition, 1f, () =>
