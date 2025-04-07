@@ -26,7 +26,8 @@ namespace MrLucy
         [SerializeField] private ElevatorLight _elevatorLight;
         [SerializeField] private RedButton _redButton;
         [SerializeField] private CameraShaker _cameraShaker;
-        [SerializeField] private GameObject _hatch;
+        [SerializeField] private Hatch _hatch;
+        [SerializeField] private Phone _phone;
         
         [SerializeField] private DialogueData _jumpDialogueData;
         [SerializeField] private DialogueData _startGameDialogueData;
@@ -114,10 +115,13 @@ namespace MrLucy
                     // останавливаем лифт
                     _cameraShaker.StopShake();
                     _elevatorDownhillScenario.StopDownhill();
+                    _elevatorLight.SetWarningMode(true);
+                    _elevatorLight.TurnOn();
                     break;
                 case GameState.TheHatchIsOpened:
                     GetHandSlot().DropItem();
-                    _hatch.AddComponent<Rigidbody>();
+                    _hatch.gameObject.AddComponent<Rigidbody>();
+                    _phone.isActive = true;
                     break;
                 case GameState.EnteredTheCode:
                     break;

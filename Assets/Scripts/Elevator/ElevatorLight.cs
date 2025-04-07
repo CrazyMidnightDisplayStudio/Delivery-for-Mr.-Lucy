@@ -11,6 +11,7 @@ namespace MrLucy
         [SerializeField] private Color warningColor = Color.red;
 
         private Coroutine _blinkingRoutine;
+        private Coroutine _pulseRoutine;
 
         public void TurnOn()
         {
@@ -22,9 +23,25 @@ namespace MrLucy
             SetLightActive(false);
         }
 
-        public void SetWarningMode(bool enabled)
+        public void SetLightColor(Color color)
         {
-            SetLightColor(enabled ? warningColor : normalColor);
+            foreach (var light in elevatorLight)
+            {
+                light.color = color;
+            }
+
+            foreach (var r in lightedSurfaces)
+            {
+                r.material.SetColor("_EmissionColor", color * 1.5f);
+            }
+        }
+
+        public void SetLightIntensity(float intensity)
+        {
+            foreach (var light in elevatorLight)
+            {
+                light.intensity = intensity;
+            }
         }
 
         public void StartBlinking(float duration)
@@ -57,18 +74,28 @@ namespace MrLucy
             }
         }
 
-        private void SetLightColor(Color color)
+        public void SetWarningMode(bool enabled)
         {
-            foreach (var light in elevatorLight)
+            if (_pulseRoutine != null)
             {
-                light.color = color;
+                StopCoroutine(_pulseRoutine);
+                _pulseRoutine = null;
             }
 
-            foreach (var r in lightedSurfaces)
+            if (enabled)
             {
-                r.material.SetColor("_EmissionColor", color * 1.5f);
+                _pulseRoutine = StartCoroutine(PulseWarningLight());
+            }
+            else
+            {
+                foreach (var light in elevatorLight)
+                {
+                    light.color = normalColor;
+                    light.intensity = 1f;
+                }
             }
         }
+
 
         private IEnumerator BlinkRoutine(float duration)
         {
@@ -87,6 +114,20 @@ namespace MrLucy
 
             // По завершению — выключить свет
             SetLightActive(false);
+        }
+
+
+        private IEnumerator PulseWarningLight()
+        {
+            SetLightColor(warningColor);
+
+            while (true)
+            {
+                // Пульсация синусом
+                float t = (Mathf.Sin(Time.time * 2f) + 1f) / 2f;
+                SetLightIntensity(Mathf.Lerp(0.5f, 2f, t));
+                yield return null;
+            }
         }
     }
 }
