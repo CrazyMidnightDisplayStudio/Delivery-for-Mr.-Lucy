@@ -10,8 +10,11 @@ public class DialogueData : ScriptableObject
 
 public class DialogueSystem : MonoBehaviour
 {
+    public static DialogueSystem Instance;
+    
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private GameObject dialoguePanel;
+    [SerializeField] private float lineDelay = 1.5f;
     [SerializeField] private float typingSpeed = 0.05f;
     [SerializeField] private AudioClip typingSound;
     [SerializeField] private float typingSoundInterval = 0.1f;
@@ -20,11 +23,14 @@ public class DialogueSystem : MonoBehaviour
     private int _currentLineIndex;
     private bool _isTyping;
     private Coroutine _typingCoroutine;
+    private Coroutine _autoNextCoroutine;
     private AudioSource _audioSource;
     private float _lastTypingSoundTime;
 
     private void Awake()
     {
+        Instance = this;
+        
         _audioSource = GetComponent<AudioSource>();
         if (_audioSource == null)
         {
@@ -46,7 +52,7 @@ public class DialogueSystem : MonoBehaviour
         DisplayNextLine();
     }
 
-    public void DisplayNextLine()
+    private void DisplayNextLine()
     {
         if (_isTyping)
         {
@@ -85,18 +91,24 @@ public class DialogueSystem : MonoBehaviour
         }
         
         _isTyping = false;
+        
+        if (_autoNextCoroutine != null)
+            StopCoroutine(_autoNextCoroutine);
+            
+        _autoNextCoroutine = StartCoroutine(AutoNextLine());
     }
 
-    private void EndDialogue()
+    private IEnumerator AutoNextLine()
+    {
+        yield return new WaitForSeconds(lineDelay);
+        DisplayNextLine();
+    }
+
+    public void EndDialogue()
     {
         dialoguePanel.SetActive(false);
-    }
-
-    private void Update()
-    {
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     DisplayNextLine();
-        // }
+        
+        if (_autoNextCoroutine != null)
+            StopCoroutine(_autoNextCoroutine);
     }
 }
