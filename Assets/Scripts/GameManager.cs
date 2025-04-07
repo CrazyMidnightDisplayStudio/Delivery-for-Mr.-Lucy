@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MrLucy
 {
@@ -17,13 +18,14 @@ namespace MrLucy
         TheHatchIsOpened,
         EbakaState,
         EnteredTheCode,
-        FinalScene,
+        OpenDoorsState,
+        Final
     }
 
     public class GameManager : Singleton<GameManager>
     {
         public Code312 code;
-        
+
         [SerializeField] private HandSlot _handSlot;
         [SerializeField] private ElevatorDownhillScenario _elevatorDownhillScenario;
         [SerializeField] private ElevatorLight _elevatorLight;
@@ -35,6 +37,8 @@ namespace MrLucy
         [SerializeField] private Ebaka _ebaka;
         [SerializeField] private GameObject _newOutside;
         [SerializeField] private GameObject _oldOutside;
+        [SerializeField] private Transform _playerTransform;
+        [SerializeField] private Final _final;
 
         [SerializeField] private DialogueData _jumpDialogueData;
         [SerializeField] private DialogueData _startGameDialogueData;
@@ -77,6 +81,14 @@ namespace MrLucy
                 {
                     _ebaka.ShowEbaka();
                     SetState(GameState.EbakaState);
+                }
+            }
+
+            if (CurrentState == GameState.OpenDoorsState)
+            {
+                if (_playerTransform.position.z < -0.64f && Input.GetKeyDown(KeyCode.Space))
+                {
+                    _final.Run();
                 }
             }
         }
@@ -148,9 +160,12 @@ namespace MrLucy
                     _oldOutside.SetActive(false);
                     _newOutside.SetActive(true);
                     break;
-                case GameState.FinalScene:
+                case GameState.OpenDoorsState:
                     code.active = false;
                     _elevatorDoors.OpenDoors();
+                    break;
+                case GameState.Final:
+                    _final.Run();
                     break;
             }
         }

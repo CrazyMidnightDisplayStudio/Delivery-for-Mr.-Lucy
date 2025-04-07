@@ -2,11 +2,6 @@
 {
     public class ElevatorButtonDown : ElevatorButton
     {
-        private void Start()
-        {
-            isInteractActive = false;
-        }
-
         public override void Interact()
         {
             base.Interact();

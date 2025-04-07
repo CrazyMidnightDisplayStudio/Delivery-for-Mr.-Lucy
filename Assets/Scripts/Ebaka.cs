@@ -74,22 +74,22 @@ namespace MrLucy
             float duration = 0.5f;
             float timer = 0f;
 
-            // Плавно уменьшаем FOV до 20
+            // Плавно уменьшаем FOV до targetFOV
             while (timer < duration)
             {
-                vcam.m_Lens.FieldOfView = Mathf.Lerp(originalFOV, 10f, timer / duration);
+                vcam.m_Lens.FieldOfView = Mathf.Lerp(originalFOV, targetFOV, timer / duration);
                 timer += Time.deltaTime;
                 yield return null;
             }
 
-            vcam.m_Lens.FieldOfView = 10f;
+            vcam.m_Lens.FieldOfView = targetFOV;
 
             yield return new WaitForSeconds(0.5f);
 
             timer = 0f;
             while (timer < duration)
             {
-                vcam.m_Lens.FieldOfView = Mathf.Lerp(10f, _normalFOV, timer / duration);
+                vcam.m_Lens.FieldOfView = Mathf.Lerp(targetFOV, _normalFOV, timer / duration);
                 timer += Time.deltaTime;
                 yield return null;
             }
@@ -97,7 +97,7 @@ namespace MrLucy
             vcam.m_Lens.FieldOfView = _normalFOV;
 
             vcam.LookAt = null;
-            
+
             GameManager.Instance.SetState(GameState.EnteredTheCode);
         }
     }
