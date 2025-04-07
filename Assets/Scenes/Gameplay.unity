@@ -2338,6 +2338,7 @@ MonoBehaviour:
   _jumpDialogueData: {fileID: 11400000, guid: 71b2825f6e9e297488be4a8adad2cc4d, type: 2}
   _startGameDialogueData: {fileID: 11400000, guid: 3adfac4092beafb4599845b8a63e2506,
     type: 2}
+  _findButton: {fileID: 11400000, guid: 735c19c8820bdad48adc41c6605428a5, type: 2}
 --- !u!4 &1562937917
 Transform:
   m_ObjectHideFlags: 0
