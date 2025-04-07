@@ -37,6 +37,7 @@ public class Phone : MonoBehaviour
         transform.SetParent(handScreenPosition.parent);
         transform.localPosition = handOffScreenPosition.localPosition;
         PhoneEquipped = false;
+        ShowPhone();
     }
 
     private void Update()
