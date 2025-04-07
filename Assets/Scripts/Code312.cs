@@ -2,38 +2,39 @@
 
 namespace MrLucy
 {
-public class Code312 : MonoBehaviour
-{
-    [SerializeField] private string correctCode = "312";
-    private string currentInput = "";
-    
-    public bool active = false;
-
-    public void AddDigit(int digit)
+    public class Code312 : MonoBehaviour
     {
-        if (!active) return;
-        
-        currentInput += digit.ToString();
-        Debug.Log("Код сейчас: " + currentInput);
+        [SerializeField] private string correctCode = "312";
+        private string currentInput = "";
 
-        if (!correctCode.StartsWith(currentInput))
+        public bool active = false;
+
+        public void AddDigit(int digit)
         {
-            Debug.Log("Ошибка во вводе. Сброс.");
-            currentInput = "";
-            return;
+            if (!active) return;
+
+            currentInput += digit.ToString();
+            Debug.Log("Код сейчас: " + currentInput);
+
+            if (!correctCode.StartsWith(currentInput))
+            {
+                Debug.Log("Ошибка во вводе. Сброс.");
+                if (currentInput[^1] == '3')
+                    currentInput = "3";
+                return;
+            }
+
+            if (currentInput == correctCode)
+            {
+                Debug.Log("Код правильный!");
+                OnCorrectCodeEntered();
+                currentInput = "";
+            }
         }
 
-        if (currentInput == correctCode)
+        private void OnCorrectCodeEntered()
         {
-            Debug.Log("Код правильный!");
-            OnCorrectCodeEntered();
-            currentInput = "";
+            GameManager.Instance.SetState(GameState.OpenDoorsState);
         }
     }
-
-    private void OnCorrectCodeEntered()
-    {
-        GameManager.Instance.SetState(GameState.FinalScene);
-    }
-}
 }
