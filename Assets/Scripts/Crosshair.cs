@@ -7,6 +7,7 @@ namespace MrLucy
     {
         [SerializeField] private HandSlot handSlot;
         private int _interactableLayerMask;
+        private float lastInteractTime = -Mathf.Infinity;
 
         public Image crosshair;
         public float rayDistance = 1.5f;
@@ -58,8 +59,9 @@ namespace MrLucy
                         }
                     }
 
-                    if (Input.GetMouseButtonDown(0))
+                    if (Input.GetMouseButtonDown(0) && Time.time - lastInteractTime >= 0.3f)
                     {
+                        lastInteractTime = Time.time;
                         current.Interact();
                     }
                 }
