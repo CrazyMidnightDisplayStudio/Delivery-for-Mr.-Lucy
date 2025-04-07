@@ -21,7 +21,7 @@ public class TerminalTextLoader : MonoBehaviour
 
     private void Update()
     {
-        if(Input.anyKeyDown || isCutsceneEnd)
+        if(Input.GetKeyDown(KeyCode.Space) || isCutsceneEnd)
             {
                 LoadNextScene();
             }
