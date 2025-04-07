@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using MrLucy;
 
 [CreateAssetMenu(fileName = "NewDialogue", menuName = "Dialogue/Dialogue Data")]
 public class DialogueData : ScriptableObject
@@ -8,10 +9,8 @@ public class DialogueData : ScriptableObject
     [TextArea(3, 10)] public string[] dialogueLines;
 }
 
-public class DialogueSystem : MonoBehaviour
+public class DialogueSystem : Singleton<DialogueSystem>
 {
-    public static DialogueSystem Instance;
-    
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private float lineDelay = 1.5f;
@@ -27,16 +26,11 @@ public class DialogueSystem : MonoBehaviour
     private AudioSource _audioSource;
     private float _lastTypingSoundTime;
 
-    private void Awake()
+    protected override void Awake()
     {
-        Instance = this;
-        
+        base.Awake();
         _audioSource = GetComponent<AudioSource>();
-        if (_audioSource == null)
-        {
-            _audioSource = gameObject.AddComponent<AudioSource>();
-            _audioSource.playOnAwake = false;
-        }
+        _audioSource.playOnAwake = false;
     }
 
     private void Start()
@@ -52,19 +46,57 @@ public class DialogueSystem : MonoBehaviour
         DisplayNextLine();
     }
 
+    public void StartDialogueJump()
+    {
+        string text = "Jump!";
+        PrintSingleMessage(text);
+    }
+
+    public void StartDialogueFind()
+    {
+        string text = "The button fell off, I need to find it!";
+        PrintSingleMessage(text);
+    }
+
+    public void PrintSingleMessage(string message)
+    {
+        // Сброс текущего состояния
+        if (_typingCoroutine != null)
+            StopCoroutine(_typingCoroutine);
+
+        if (_autoNextCoroutine != null)
+            StopCoroutine(_autoNextCoroutine);
+
+        _isTyping = false;
+        _currentDialogue = null; // Без ScriptableObject
+
+        // Показываем панель
+        dialoguePanel.SetActive(true);
+
+        // Печатаем текст
+        _typingCoroutine = StartCoroutine(TypeText(message));
+    }
+
     private void DisplayNextLine()
     {
-        if (_isTyping)
+        if (_currentDialogue == null || _currentDialogue.dialogueLines == null)
         {
-            StopCoroutine(_typingCoroutine);
-            _isTyping = false;
-            dialogueText.text = _currentDialogue.dialogueLines[_currentLineIndex];
+            Debug.LogWarning("No active dialogue to display.");
+            EndDialogue();
             return;
         }
 
         if (_currentLineIndex >= _currentDialogue.dialogueLines.Length)
         {
             EndDialogue();
+            return;
+        }
+
+        if (_isTyping)
+        {
+            StopCoroutine(_typingCoroutine);
+            _isTyping = false;
+            dialogueText.text = _currentDialogue.dialogueLines[_currentLineIndex];
             return;
         }
 
@@ -76,25 +108,25 @@ public class DialogueSystem : MonoBehaviour
     {
         _isTyping = true;
         dialogueText.text = "";
-        
+
         for (int i = 0; i < text.Length; i++)
         {
             dialogueText.text += text[i];
-            
+
             if (typingSound != null && Time.time - _lastTypingSoundTime >= typingSoundInterval)
             {
                 _audioSource.PlayOneShot(typingSound);
                 _lastTypingSoundTime = Time.time;
             }
-            
+
             yield return new WaitForSeconds(typingSpeed);
         }
-        
+
         _isTyping = false;
-        
+
         if (_autoNextCoroutine != null)
             StopCoroutine(_autoNextCoroutine);
-            
+
         _autoNextCoroutine = StartCoroutine(AutoNextLine());
     }
 
@@ -107,7 +139,7 @@ public class DialogueSystem : MonoBehaviour
     public void EndDialogue()
     {
         dialoguePanel.SetActive(false);
-        
+
         if (_autoNextCoroutine != null)
             StopCoroutine(_autoNextCoroutine);
     }
