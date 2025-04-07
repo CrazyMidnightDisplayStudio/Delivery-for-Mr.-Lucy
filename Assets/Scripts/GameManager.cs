@@ -27,6 +27,9 @@ namespace MrLucy
         [SerializeField] private RedButton _redButton;
         [SerializeField] private CameraShaker _cameraShaker;
         [SerializeField] private GameObject _hatch;
+        
+        [SerializeField] private DialogueData _jumpDialogueData;
+        [SerializeField] private DialogueData _startGameDialogueData;
 
         public GameState CurrentState { get; private set; }
 
@@ -72,6 +75,7 @@ namespace MrLucy
             switch (newState)
             {
                 case GameState.WaitingButton:
+                    DialogueSystem.Instance.StartDialogue(_startGameDialogueData);
                     // активируем кнопку для начала спуска
                     break;
                 case GameState.Downhill:
@@ -91,6 +95,7 @@ namespace MrLucy
                     // слот для установки красной кнопки включается сам
                     break;
                 case GameState.FirstCallRedButton:
+                    DialogueSystem.Instance.StartDialogue(_jumpDialogueData);
                     // в этом стейте при нажатии красной кнопки вызовится диалог
                     SetState(GameState.WaitSpaceButton);
                     break;
@@ -98,6 +103,7 @@ namespace MrLucy
                     // ждем прыжка который остановит лифт в Update()
                     break;
                 case GameState.ElevatorStuck:
+                    DialogueSystem.Instance.EndDialogue();
                     // останавливаем лифт
                     _cameraShaker.StopShake();
                     _elevatorDownhillScenario.StopDownhill();
