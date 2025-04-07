@@ -50,5 +50,16 @@ namespace MrLucy
 
             return itemToDrop;
         }
+        
+        public void DropItem(Action onComplete = null)
+        {
+            if (Empty) return;
+            
+            currentItem.transform.SetParent(null);
+            currentItem.gameObject.AddComponent<Rigidbody>();
+            currentItem = null;
+            
+            Empty = true;
+        }
     }
 }

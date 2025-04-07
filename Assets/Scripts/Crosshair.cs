@@ -34,7 +34,10 @@ namespace MrLucy
             if (Physics.Raycast(ray, out var hit, rayDistance, _interactableLayerMask))
             {
                 Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.yellow);
-                var interactable = hit.collider.GetComponent<BaseInteractableObject>();
+                if (!hit.collider.TryGetComponent<BaseInteractableObject>(out var interactable))
+                {
+                    return;
+                }
 
                 highlight = hit.transform;
 

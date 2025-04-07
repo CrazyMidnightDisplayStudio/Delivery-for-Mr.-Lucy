@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
-using Cinemachine;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace MrLucy
 {
@@ -15,6 +12,7 @@ namespace MrLucy
         ChaoticFall,
         WaitForRedButtonReceive,
         FirstCallRedButton,
+        WaitSpaceButton,
         ElevatorStuck,
         TheHatchIsOpened,
         EnteredTheCode,
@@ -28,9 +26,12 @@ namespace MrLucy
         [SerializeField] private ElevatorLight _elevatorLight;
         [SerializeField] private RedButton _redButton;
         [SerializeField] private CameraShaker _cameraShaker;
+        [SerializeField] private GameObject _hatch;
         
         [SerializeField] private DialogueData _jumpDialogueData;
         [SerializeField] private DialogueData _startGameDialogueData;
+        
+        private DialogueSystem _dialogueSystem;
 
         public GameState CurrentState { get; private set; }
 
@@ -38,11 +39,27 @@ namespace MrLucy
 
         public event Action<GameState> OnStateChanged;
 
+        private void Awake()
+        {
+            _dialogueSystem = DialogueSystem.Instance;
+        }
+
         private void Start()
         {
             SetState(NextState());
             CutsceneManager.Instance.StartCutscene("StartGame");
             Time.timeScale *= 2f;
+        }
+
+        private void Update()
+        {
+            if (CurrentState == GameState.WaitSpaceButton)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    SetState(GameState.ElevatorStuck);
+                }
+            }
         }
 
         public void SetState(GameState newState)
@@ -87,7 +104,10 @@ namespace MrLucy
                 case GameState.FirstCallRedButton:
                     DialogueSystem.Instance.StartDialogue(_jumpDialogueData);
                     // в этом стейте при нажатии красной кнопки вызовится диалог
-                    // ждем прыжка который остановит лифт
+                    SetState(GameState.WaitSpaceButton);
+                    break;
+                case GameState.WaitSpaceButton:
+                    // ждем прыжка который остановит лифт в Update()
                     break;
                 case GameState.ElevatorStuck:
                     DialogueSystem.Instance.EndDialogue();
@@ -96,7 +116,8 @@ namespace MrLucy
                     _elevatorDownhillScenario.StopDownhill();
                     break;
                 case GameState.TheHatchIsOpened:
-                    // 
+                    GetHandSlot().DropItem();
+                    _hatch.AddComponent<Rigidbody>();
                     break;
                 case GameState.EnteredTheCode:
                     break;
