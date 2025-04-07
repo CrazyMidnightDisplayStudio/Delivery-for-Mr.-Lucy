@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Audio;
 
 namespace MrLucy
 {
@@ -23,7 +24,7 @@ namespace MrLucy
             _mainSource.playOnAwake = false;
 
             // Дополнительный источник
-            _secondarySource = gameObject.AddComponent<AudioSource>();
+            _secondarySource = gameObject.GetComponentInChildren<AudioSource>();
             _secondarySource.playOnAwake = false;
         }
 
